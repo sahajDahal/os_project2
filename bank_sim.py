@@ -1,3 +1,37 @@
+import threading
+import time
+import random
+import queue
+
+# Constants
+N_TELLERS = 3
+N_CUSTOMERS = 50  # required by the project
+
+# Semaphores and shared resources
+door_sem = threading.Semaphore(2)        # At most 2 customers inside the bank
+manager_sem = threading.Semaphore(1)     # Only 1 teller with the manager
+safe_sem = threading.Semaphore(2)        # At most 2 tellers in the safe
+
+bank_open_sem = threading.Semaphore(0)   # Customers wait on this until bank is open
+teller_ready_sem = threading.Semaphore(0)  # For main to know all tellers are ready
+
+# Teller availability & selection
+teller_available_sem = threading.Semaphore(0)
+teller_queue = queue.Queue()
+
+# Per-teller synchronization
+cust_arrived_sem = [threading.Semaphore(0) for _ in range(N_TELLERS)]
+teller_ask_sem = [threading.Semaphore(0) for _ in range(N_TELLERS)]
+cust_gave_trans_sem = [threading.Semaphore(0) for _ in range(N_TELLERS)]
+trans_done_sem = [threading.Semaphore(0) for _ in range(N_TELLERS)]
+customer_left_sem = [threading.Semaphore(0) for _ in range(N_TELLERS)]
+
+# Per-teller state (which customer + what transaction)
+current_customer_id = [None] * N_TELLERS
+current_transaction = [None] * N_TELLERS
+
+
+
 def teller_thread(tid: int):
     # Initial ready message
     print(f"Teller {tid} [Teller {tid}]: ready to serve")
