@@ -1,54 +1,16 @@
-# os_project2
+# OS Project 2
 
-# Bank Simulation – OS Project 2
+## Summary
 
-This project simulates a bank environment using multithreading and semaphores in Python.  
-There are **3 teller threads** and **50 customer threads**, each interacting through shared resources such as the bank door, manager, and safe. The simulation enforces realistic synchronization rules to mimic real banking constraints.
+This program simulates a bank using multithreading and semaphores in Python.  
+The system includes 3 tellers and 50 customers. Tellers handle deposits and withdrawals, request manager approval when needed, and access a limited capacity safe. Customers enter through a door with limited capacity, wait in line, and interact with tellers using a synchronized handshake.  
+The simulation demonstrates thread coordination, shared resource protection, and realistic concurrency control.
 
-## Features
+## How to Run
 
-- **Teller Threads (3 total)**
+1. Make sure you have Python installed.
+2. Place the simulation file in your working directory.
+3. Open a terminal in that directory.
+4. Run the program using: python bank_sim.py
 
-  - Announce readiness before bank opens
-  - Serve customers in order
-  - Request manager approval for withdrawals
-  - Access the safe (only 2 tellers allowed inside at once)
-  - Coordinate a full request/response handshake with customers
-
-- **Customer Threads (50 total)**
-  - Randomly choose deposit or withdrawal
-  - Wait 0–100ms before going to the bank
-  - Enter through a door with capacity 2
-  - Wait in line for available tellers
-  - Exchange transaction details through synchronized steps
-
-## Synchronization Tools Used
-
-The simulation uses Python’s built-in threading tools:
-
-- `threading.Thread` for teller and customer threads
-- `threading.Semaphore` for:
-  - Bank door limit
-  - Manager approval (1 teller at a time)
-  - Safe access (2 tellers at a time)
-  - Teller availability
-  - Customer–teller handshakes
-- `queue.Queue` to map customers to available tellers
-
-## Running the Simulation
-
-Run the simulation with:
-
-You will see detailed output of all actions in the format:
-
-This output matches the project specifications exactly.
-
-## Project Structure
-
-- **bank_sim.py** – Main simulation code
-- **devlog.md** – Development log showing progress over multiple sessions
-
-## Notes
-
-- Output is intentionally verbose for grading and synchronization validation.
-- Threads simulate timing using short sleeps to model real-world transaction delays.
+5. The program will print detailed logs showing all interactions between tellers and customers.

@@ -8,8 +8,8 @@
 
 ### Thoughts so far
 
-- Read through the project instructions. The simulation is a synchronization-heavy problem with customers, tellers, the manager, the safe, and the bank door.
-- Feels similar to sleeping barber / producer-consumer but with more constraints and shared resources.
+- Read through the project instructions. The simulation is a synchronization heavy problem with customers, tellers, the manager, the safe, and the bank door.
+- Feels similar to sleeping barber or producer consumer but with more constraints and shared resources.
 
 ### Plan for this session
 
@@ -84,8 +84,8 @@
 ### Reflection
 
 - Bank opening mechanism added.
-- Customers now wait for bank open → then door → then teller.
-- Door limit works (only two customers inside at a time).
+- Customers now wait for bank open, then door, then teller.
+- Door limit works.
 
 ### Next steps
 
