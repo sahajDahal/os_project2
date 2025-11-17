@@ -31,7 +31,6 @@ current_customer_id = [None] * N_TELLERS
 current_transaction = [None] * N_TELLERS
 
 
-
 def teller_thread(tid: int):
     # Initial ready message
     print(f"Teller {tid} [Teller {tid}]: ready to serve")
@@ -127,3 +126,34 @@ def customer_thread(cid: int):
     customer_left_sem[tid].release()
     print(f"Customer {cid} [Customer {cid}]: leaving bank")
     door_sem.release()
+
+
+if __name__ == "__main__":
+    # Start teller threads
+    tellers = []
+    for tid in range(N_TELLERS):
+        t = threading.Thread(target=teller_thread, args=(tid,), daemon=True)
+        tellers.append(t)
+        t.start()
+
+    # Wait until all tellers are ready, then open the bank
+    for _ in range(N_TELLERS):
+        teller_ready_sem.acquire()
+    print("Main [Bank]: all tellers ready, bank is now open")
+
+    # Allow each customer to enter once the bank is open
+    for _ in range(N_CUSTOMERS):
+        bank_open_sem.release()
+
+    # Start customer threads
+    customers = []
+    for cid in range(N_CUSTOMERS):
+        t = threading.Thread(target=customer_thread, args=(cid,))
+        customers.append(t)
+        t.start()
+
+    # Wait for all customers to finish
+    for t in customers:
+        t.join()
+
+    print("Main [Bank]: all customers done, simulation complete")
